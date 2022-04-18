@@ -1,0 +1,114 @@
+---
+title: "Advanced Bioinformatics 2022 Assessment"
+author: "Mateus Gardi Silva m2108418 | k21148753"
+date: '2022-04-08'
+output: html_document
+---
+
+```{r Task 3.1, echo=TRUE}
+### Task 3.1
+
+sum(5:55) #To evaluate the sum of all integers between 5 and 55. 
+# Alternatively, this creates a variable x with all integers between 5 and 55, which can then be followed with the sum function of x vector
+x <- (5:55) 
+sum(x)
+```
+
+
+```{r Task 3.2, echo=TRUE}
+### Task 3.2
+
+sumfun <- function(n) {sum(5:n)} #The function sumfun was firstly created according to requested requirements
+#Subsequently, the parameter "n" was substituted for each value requested (10, 20 and 100, respectively)
+sumfun(10) 
+sumfun(20)
+sumfun(100)
+```
+
+
+```{r Task 3.3, echo=TRUE}
+### Task 3.3
+
+#The value set is introduced, named fib and containing a sequence of 12 numbers
+fib <- numeric(12)
+fib[1] <- 1
+fib[2] <-1
+#The latter 2 lines set the first 2 elements of the sequence as 1 in accordance with the first 2 steps of Fibonacci’s sequence. From here on, the loop script “for” is introduced:
+for (i in 3:12) #In which i is an element of the value set between the 3rd and 12th value
+{ #This marks the beginning of the for loop
+fib[i] <- fib[i-1]+fib[i-2] #Wherein the element i equals to the sum of their 2 preceding elements
+} #End of loop
+#Lastly, the resulting sequence is printed on screen with the following script:
+print(fib)
+```
+
+
+```{r Task 3.4, echo=TRUE}
+### Task 3.4
+
+library(ggplot2)
+ggplot(data=mtcars, aes(x=as.factor(gear),y=mpg)) + geom_boxplot(aes(fill=as.factor(gear))) + labs(title = "Figure 1. Box plot graph: miles/gallon as a function of number of gears", y = "Miles per gallon (mpg)", x = "Number of gears (gear)")
+
+#Firstly, the ggplot function is loaded with the "library(ggplot2)" command. In this function, the first argument lists the dataframe containing the data of interest "data=mtcars". This is followed by the aestethic mapping, in which "miles per gallon (mpg)" is plotted as a function of the "number of gears (gear)". Next, the plus operator adds the "geom_boxplot" component which defines the shape of the plotted graph and adds the fill aesthetic to colour the gear bars.
+#In addtion, the labs component was added in order to insert a title to the graph as well as label the x and y axis.
+```
+
+
+```{r Task 3.5, echo=TRUE}
+
+### Task 3.5
+
+#The dataset in question was firstly viewed with the following commands
+data=cars
+View(cars)
+#Next, the help command for the cars dataset was used to discover the units for Speed and Stopping Distance:
+?cars
+#Following, the liner model fitting was conducted by the following command
+y <- cars$dist*0.000189394; x <- cars$speed;
+#Note the existing values in the Stopping distance (dist) were converted from ft to miles in order to match units with speed, which is in miles per hour. Assuming that 1 foot equals to 0.000189394 miles, the conversion was achieved by multiplying cars$dist by 0.000189394.
+model <- lm(formula = "y~x")
+#The extended details were then viewed to obtain the fitted slope and intercept of the line along with their standard errors by using 
+summary(model)
+
+#Units 
+#[,1]	speed	numeric	Speed (mph)
+#[,2]	dist numeric	Stopping distance (ft)
+
+```
+
+
+```{r Task 3.6, echo=TRUE}
+### Task 3.6
+
+library(ggplot2)
+ggplot(cars,aes(speed,dist*0.000189394)) + geom_point() + geom_smooth(method="lm",formula="y~x") + labs (title = "Figure 2. Linear regression plot of speed and stopping distance", x = "Speed (miles/hour)", y = "Stopping Distance (miles)")
+
+#Similarly to task 3.4, the ggplot function is loaded with the "library(ggplot2)" command. The first argument lists the dataframe "cars".This is followed by the aestethic mapping, in which the x vector is set to speed value and y vector is set to dist value (converted from ft to miles). Next, the plus operator adds the "geom_smooth" component which defines the linear shape of the plotted graph. In addition, the labs component was added in order to insert a title to the graph as well as label the x and y axis.
+
+```
+
+
+```{r Task 3.7, echo=TRUE}
+### Task 3.7
+
+#The first step here is to convert the existing values in the break distance (dist) from ft to miles in order to match units with speed, which is in miles per hour. A new variable is created for this converted value (dist_miles) where 1 foot is again assumed as 0.000189394 miles.
+dist_miles <- cars$dist*0.000189394
+#Next, the breaking distance variable is set to the square value of the speed
+break_dist <- cars$speed^2
+#A linear model is then fitten between the stopping distance in miles (dist_miles) and breaking distance (break_dist)  as a derivative of square rooting the speed in miles per hour. 
+y <- dist_miles; x <- break_dist;
+model <- lm(formula = "y~x")
+#The variable model is set in order to provide an extended summary
+summary(model)
+#The slope value here would then equal to the average reaction time in hours, which then needs to be converted to seconds (1h-3600s). The variable reaction_time is set for this. 
+reaction_time <- 2.443e-05/3600
+reaction_time
+#The latter shows the reaction time as 6.786111e-09 seconds, which isnt a reasonable result since the average reaction time would be expected to be a much higher value. It is not possible that a driver would react and activate the car breaks within the space of 0.000000006.786111 seconds.
+
+# Plotting 
+library(ggplot2)
+ggplot(cars,aes(break_dist,dist_miles)) + geom_point() + geom_smooth(method="lm",formula="y~x") + labs (title = "Figure 3. Linear regression of breaking distance and stopping distance", x = "Distance (miles)", y = "Breaking Distance (miles/h)")
+#Whereas the linear regression equals to the average reaction time in hours.
+
+```
+
